@@ -36,7 +36,9 @@ RUN	git clone https://github.com/trimstray/multitor && \
   mkdir -p /var/log/multitor/privoxy/ && \
   mkdir -p /var/log/polipo/ && \
 # let haproxy listen from outside, instand only in the docker container
-  sed -i s/127.0.0.1:16379/0.0.0.0:16379/g templates/haproxy-template.cfg
+  sed -i s/127.0.0.1:16379/0.0.0.0:16379/g templates/haproxy-template.cfg && \
+# let tor sockets be accessible outside docker container
+  sed -i s/\"\$_arg_socks\"/\"0.0.0.0:\$_arg_socks\"/g lib/CreateTorProcess
 
 WORKDIR /multitor/
 EXPOSE	16379
